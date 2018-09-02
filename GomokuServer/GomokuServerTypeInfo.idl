@@ -1,0 +1,61 @@
+import "oaidl.idl";
+import "ocidl.idl";
+//Wysokoœæ formatu A5 : 210 mm = 21, 0 cm.Szerokoœæ formatu A5 : 148 mm = 14, 8 cm.
+const int B_SIZE_Y = 42;
+const int B_SIZE_X = 30;
+typedef enum _player_sign{
+	NON_INITIALIZED = 0,
+	PLAYER_O,
+	PLAYER_X,
+	EMPTY
+}player_sign;//TODO: I don't really like this approach, to be revisited maybe
+
+typedef enum _move_result{
+	OK = 0,
+	FAIL = 1
+} move_result;
+
+typedef enum _game_state {
+	INITIAL = 0,
+	WAITING_FOR_2ND_PLAYER,
+	IN_PROGRESS,
+	FINISHED
+} game_state;
+
+
+typedef struct _field {//the structure is kind of pointless since it only has one field, but the requirement for the project was to store the game board as an array of structs :)
+	player_sign fieldState;
+}field;
+
+// define the IGomokuServerRoom interface
+[object, uuid(AFAFD844-C50F-499D-BAA2-0AA4B70C5CB6),
+oleautomation, helpstring("main interface of the project")]
+interface IGomokuServerRoom : IUnknown
+{
+	HRESULT JoinGame(
+		[out, retval] player_sign		*ps);
+	HRESULT GetCurrentPlayer(
+		[out, retval] player_sign		*ps);
+	HRESULT GetBoard(
+		[out] field				board[B_SIZE_Y][B_SIZE_X]);
+	HRESULT MakeAMove(
+		[out] move_result		*mr,
+		[in]  player_sign		*pi,
+		[in]  int				*y,
+		[in]  int				*x);
+	HRESULT GetGameState(
+		[out, retval] game_state		*gs);
+};
+
+// library statement
+[uuid(B5E333BC-EE60-4AD2-9789-DE774A50CB6B), version(1.0),
+helpstring("Gomoku server room type lib")]
+library GomokuLib
+{
+	importlib("stdole32.tlb");
+	[uuid(4914A6AE-B125-41AC-AAA2-20598FABDF4E)]
+	coclass GomokuServerRoom
+	{
+		[default] interface IGomokuServerRoom;
+	};
+};
