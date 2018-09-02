@@ -8,7 +8,7 @@ typedef enum _player_sign{
 	PLAYER_O,
 	PLAYER_X,
 	EMPTY
-}player_sign;//TODO: I don't really like this approach, to be revisited maybe
+}player_sign;
 
 typedef enum _move_result{
 	OK = 0,
