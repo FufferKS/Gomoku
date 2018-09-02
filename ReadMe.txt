@@ -26,6 +26,10 @@ Files:
 			GomokuServer.dll			compiled for the client via: tlbimp.exe GomokuServer.tlb /out:GomokuServer.dll
 			GomokuServer.exe            :)
 -------------------------------------------------
+Issues:
+	- if the client does not close normally, the server might not recognize it's exit and thus stay on
+	
+-------------------------------------------------
 Sources:
 	1. http://kaims.eti.pg.gda.pl/~goluch/lab/com_17.pdf
 	2. https://www.codeproject.com/Articles/8679/Building-a-LOCAL-COM-Server-and-Client-A-Step-by-S
